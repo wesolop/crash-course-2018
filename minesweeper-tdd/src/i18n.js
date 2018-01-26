@@ -1,5 +1,5 @@
-import * as i18next from 'i18next';
-import * as i18nextXHRBackend from 'i18next-xhr-backend';
+import i18next from 'i18next';
+import i18nextXHRBackend from 'i18next-xhr-backend';
 
 export default function i18n({locale = 'en', baseUrl = ''} = {}) {
   return i18next

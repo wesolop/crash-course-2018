@@ -1,11 +1,11 @@
-import {Router} from 'express';
-import * as wixRunMode from 'wix-run-mode';
-import * as ejs from 'ejs';
-import * as wixExpressCsrf from 'wix-express-csrf';
-import * as wixExpressRequireHttps from 'wix-express-require-https';
+import 'regenerator-runtime/runtime';
+import wixRunMode from 'wix-run-mode';
+import ejs from 'ejs';
+import wixExpressCsrf from 'wix-express-csrf';
+import wixExpressRequireHttps from 'wix-express-require-https';
 import {readFileSync} from 'fs';
 
-module.exports = (app: Router, context) => {
+module.exports = (app, context) => {
   const config = context.config.load('minesweeper-tdd');
   const templatePath = './src/index.ejs';
   const templateFile = readFileSync(templatePath, 'utf8');

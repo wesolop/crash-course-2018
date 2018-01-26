@@ -29,7 +29,8 @@
     "wix-bootstrap-ng": "latest",
     "wix-express-csrf": "latest",
     "wix-express-require-https": "latest",
-    "wix-run-mode": "latest"
+    "wix-run-mode": "latest",
+    "regenerator-runtime": "^0.11.0"
   },
   "devDependencies": {
     "react-test-renderer": "~15.6.0",
@@ -40,17 +41,7 @@
     "jsdom": "~11.2.0",
     "jsdom-global": "~3.0.0",
     "wix-bootstrap-testkit": "latest",
-    "wix-config-emitter": "latest",
-    "typescript": "~2.4.0",
-    "@types/chai": "~4.0.0",
-    "@types/ejs": "~2.5.0",
-    "@types/express": "~4.0.0",
-    "@types/i18next": "~8.4.0",
-    "@types/mocha": "~2.2.0",
-    "@types/prop-types": "~15.5.0",
-    "@types/react": "~15.6.0",
-    "@types/react-dom": "~15.5.0",
-    "@types/react-i18next": "~4.6.0"
+    "wix-config-emitter": "latest"
   },
   "haste": {
     "preset": "yoshi"
@@ -60,5 +51,13 @@
       "react": "React",
       "react-dom": "ReactDOM"
     }
+  },
+  "babel": {
+    "presets": [
+      "wix"
+    ]
+  },
+  "eslintConfig": {
+    "extends": "wix/react"
   }
 }

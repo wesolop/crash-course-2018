@@ -1,11 +1,10 @@
-import * as React from 'react';
-import {translate, InjectedTranslateProps} from 'react-i18next';
-import * as s from './App.scss';
-import * as PropTypes from 'prop-types';
+import React from 'react';
+import {translate} from 'react-i18next';
+import s from './App.scss';
+import PropTypes from 'prop-types';
 
-interface AppProps extends InjectedTranslateProps {}
 
-class App extends React.Component<AppProps, null> {
+class App extends React.Component {
   static propTypes = {
     t: PropTypes.func
   };

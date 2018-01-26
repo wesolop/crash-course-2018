@@ -1,8 +1,8 @@
 import 'jsdom-global/register';
-import * as React from 'react';
+import React from 'react';
 import {expect} from 'chai';
 import {mount} from 'enzyme';
-import * as i18next from 'i18next';
+import i18next from 'i18next';
 import {I18nextProvider} from 'react-i18next';
 import App from './App';
 import translation from '../../assets/locale/messages_en.json';
