@@ -6,7 +6,7 @@ import wixExpressRequireHttps from 'wix-express-require-https';
 import {readFileSync} from 'fs';
 
 module.exports = (app, context) => {
-  const config = context.config.load('minesweeper-tdd');
+  const config = context.config.load('tic-tac-toe-tdd');
   const templatePath = './src/index.ejs';
   const templateFile = readFileSync(templatePath, 'utf8');
   const isProduction = wixRunMode.isProduction();

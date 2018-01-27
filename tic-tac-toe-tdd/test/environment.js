@@ -11,7 +11,7 @@ export function beforeAndAfter() {
 function emitConfigs() {
   return configEmitter({sourceFolders: ['./templates'], targetFolder: './target/configs'})
     .fn('scripts_domain', 'static.parastorage.com')
-    .fn('static_url', 'com.wixpress.crash.minesweeper-tdd', 'http://localhost:3200/')
+    .fn('static_url', 'com.wixpress.crash.tic-tac-toe-tdd', 'http://localhost:3200/')
     .emit();
 }
 
