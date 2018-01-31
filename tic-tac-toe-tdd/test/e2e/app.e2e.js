@@ -1,16 +1,18 @@
 import {expect} from 'chai';
-import {protractor, browser, $} from 'protractor';
+import puppeteer from 'puppeteer';
 import {beforeAndAfter, app} from './../environment';
 
 describe('React application', () => {
-
+  let page;
   beforeAndAfter();
+  before(async () => {
+    const browser = await puppeteer.launch();
+    page = await browser.newPage();
+  });
 
-  describe('open page', () => {
-    it('should display title', async () => {
-      await browser.get(app.getUrl('/'));
-      await browser.wait(protractor.ExpectedConditions.presenceOf($('h2')));
-      expect(await $('h2').getText()).to.equal('Hello World!');
-    });
+  it('should display title', async () => {
+    await page.goto(app.getUrl('/'));
+    const text = await page.$eval('h2', el => el.innerText);
+    expect(text).to.equal('Hello World!');
   });
 });
