@@ -1,4 +1,6 @@
 import React from 'react';
+import Game from '../Game';
+import Registration from '../Registration';
 import s from './App.scss';
 
 class App extends React.Component {
@@ -9,11 +11,8 @@ class App extends React.Component {
   render() {
     return (
       <div className={s.root}>
-        <input className="user1" onChange={e => this.setState({user1: e.target.value})}/>
-        <input className="user2" onChange={e => this.setState({user2: e.target.value})}/>
-        <button className="start">start</button>
-        <div className="input1">{this.state.user1}</div>
-        <div className="input2">{this.state.user2}</div>
+        <Registration onNewGame={({user1, user2}) => this.setState({user1, user2})}/>
+        <Game user1={this.state.user1} user2={this.state.user2}/>
       </div>
     );
   }

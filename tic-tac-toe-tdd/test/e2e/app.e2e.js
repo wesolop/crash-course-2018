@@ -6,7 +6,7 @@ describe('React application', () => {
   let page;
   beforeAndAfter();
   before(async () => {
-    const browser = await puppeteer.launch({devtools: true});
+    const browser = await puppeteer.launch();
     page = await browser.newPage();
   });
 
