@@ -5,18 +5,18 @@ import {beforeAndAfter, app} from './../environment';
 const appDriver = page => ({
   when: {
     newGame: async ({user1, user2}) => {
-      await page.type('.user1', user1);
-      await page.type('.user2', user2);
-      await page.$eval('.start', btn => btn.click());
+      await page.type('[data-hook="user1"]', user1);
+      await page.type('[data-hook="user2"]', user2);
+      await page.$eval('[data-hook="start"]', btn => btn.click());
     },
     navigateAndWait: async (url = '/') => {
       await page.goto(app.getUrl(url));
-      await page.waitForSelector('.user1');
+      await page.waitForSelector('[data-hook="user1"]');
     }
   },
   get: {
-    user1Title: () => page.$eval('.input1', el => el.innerText),
-    user2Title: () => page.$eval('.input2', el => el.innerText),
+    user1Title: () => page.$eval('[data-hook="input1"]', el => el.innerText),
+    user2Title: () => page.$eval('[data-hook="input2"]', el => el.innerText),
   }
 });
 

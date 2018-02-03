@@ -10,8 +10,8 @@ export default class Game extends Component {
     const {user1, user2} = this.props;
     return (
       <div>
-        <div className="input1">{user1}</div>
-        <div className="input2">{user2}</div>
+        <div data-hook="input1">{user1}</div>
+        <div data-hook="input2">{user2}</div>
       </div>
     );
   }
