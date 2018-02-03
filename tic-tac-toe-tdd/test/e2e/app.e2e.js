@@ -19,7 +19,8 @@ const appDriver = page => ({
     user1Title: () => page.$eval('[data-hook="input1"]', el => el.innerText),
     user2Title: () => page.$eval('[data-hook="input2"]', el => el.innerText),
     aCellAt: index => page.$$eval('td', (els, i) => els[i].innerText, index),
-    winnerMessage: () => page.$eval('[data-hook="winner-message"]', el => el.innerText)
+    winnerMessage: () => page.$eval('[data-hook="winner-message"]', el => el.innerText),
+    hasWinner: async () => !!(await page.$('[data-hook="winner-message"]'))
   }
 });
 
@@ -58,6 +59,7 @@ describe('React application', () => {
     await driver.when.newGame({user1, user2});
     await driver.when.clickACellAt(0);
     await driver.when.clickACellAt(3);
+    expect(await driver.get.hasWinner(), 'has winner').to.equal(false);
     await driver.when.clickACellAt(1);
     await driver.when.clickACellAt(4);
     await driver.when.clickACellAt(2);
