@@ -12,6 +12,7 @@ export default class Game extends Component {
       <div>
         <div data-hook="input1">{user1}</div>
         <div data-hook="input2">{user2}</div>
+        <table><tr><td>X</td></tr></table>
       </div>
     );
   }
