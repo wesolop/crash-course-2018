@@ -19,6 +19,7 @@ const appDriver = page => ({
     user1Title: () => page.$eval('[data-hook="input1"]', el => el.innerText),
     user2Title: () => page.$eval('[data-hook="input2"]', el => el.innerText),
     aCellAt: index => page.$$eval('td', (els, i) => els[i].innerText, index),
+    winnerMessage: () => page.$eval('[data-hook="winner-message"]', el => el.innerText)
   }
 });
 
@@ -40,7 +41,7 @@ describe('React application', () => {
     expect(await driver.get.user2Title()).to.equal(user2);
   });
 
-  it('should show "X" after forst user clicks', async () => {
+  it('should show "X" after first user clicks', async () => {
     const user1 = 'Yaniv';
     const user2 = 'Computer';
     await driver.when.navigateAndWait();
@@ -48,5 +49,18 @@ describe('React application', () => {
     expect(await driver.get.aCellAt(0)).to.equal('');
     await driver.when.clickACellAt(0);
     expect(await driver.get.aCellAt(0)).to.equal('X');
+  });
+
+  it('first user should win the game', async () => {
+    const user1 = 'Yaniv';
+    const user2 = 'Computer';
+    await driver.when.navigateAndWait();
+    await driver.when.newGame({user1, user2});
+    await driver.when.clickACellAt(0);
+    await driver.when.clickACellAt(3);
+    await driver.when.clickACellAt(1);
+    await driver.when.clickACellAt(4);
+    await driver.when.clickACellAt(2);
+    expect(await driver.get.winnerMessage()).to.equal(`${user1} won!`);
   });
 });

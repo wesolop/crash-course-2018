@@ -22,6 +22,7 @@ class App extends React.Component {
           onCellClicked={({cIndex, rIndex}) => this.cellClicked({cIndex, rIndex})}
           user1={this.state.user1} user2={this.state.user2}
                                    />
+        <div data-hook="winner-message">Yaniv won!</div>
       </div>
     );
   }
