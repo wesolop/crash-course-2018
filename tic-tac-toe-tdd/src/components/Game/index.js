@@ -14,9 +14,13 @@ export default class Game extends Component {
       <div>
         <div data-hook="input1">{user1}</div>
         <div data-hook="input2">{user2}</div>
-        <table>{this.props.board.map((row, rIndex) => <tr key={rIndex}>
-          {row.map((col, cIndex) => <td onClick={() => this.props.onCellClicked({rIndex, cIndex})} key={cIndex}>{col}</td>)}
-        </tr>)}</table>
+        <table>
+          <tbody>
+            {this.props.board.map((row, rIndex) => <tr key={rIndex}>
+              {row.map((col, cIndex) => <td onClick={() => this.props.onCellClicked({rIndex, cIndex})} key={cIndex}>{col}</td>)}
+            </tr>)}
+          </tbody>
+        </table>
       </div>
     );
   }

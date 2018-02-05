@@ -6,15 +6,22 @@ import s from './App.scss';
 class App extends React.Component {
   constructor() {
     super();
-    this.state = {user1: '', user2: '', board: [['', '', ''], ['', '', ''], ['', '', '']], winner: ''};
+    this.state = {
+      user1: '',
+      user2: '',
+      board: [['', '', ''], ['', '', ''], ['', '', '']],
+      winner: '',
+      currentPlayer: 'X',
+    };
   }
   cellClicked({cIndex, rIndex}) {
     const board = this.state.board.map(r => [...r]);
-    board[rIndex][cIndex] = 'X';
+    board[rIndex][cIndex] = this.state.currentPlayer;
     if (board[0].every(c => c === 'X')) {
       this.setState({winner: this.state.user1});
     }
-    this.setState({board});
+    const nextPlayer = this.state.currentPlayer === 'X' ? 'O' : 'X';
+    this.setState({board, currentPlayer: nextPlayer});
   }
   render() {
     return (
