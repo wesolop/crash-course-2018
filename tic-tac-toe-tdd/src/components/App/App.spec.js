@@ -27,4 +27,25 @@ describe('App', () => {
     wrapper.find('td').at(1).simulate('click');
     expect(wrapper.find('td').at(1).text()).to.eq('O');
   });
+
+  it('second player should win the game', () => {
+    const player1 = 'Yaniv';
+    const player2 = 'Bla';
+
+    wrapper = mount(
+      <App/>,
+      {attachTo: document.createElement('div')}
+    );
+    enzymeInputTestkitFactory({wrapper, dataHook: 'user1'}).enterText(player1);
+    enzymeInputTestkitFactory({wrapper, dataHook: 'user2'}).enterText(player2);
+    wrapper.find('[data-hook="start"]').simulate('click');
+    wrapper.find('td').at(3).simulate('click');
+    wrapper.find('td').at(0).simulate('click');
+    wrapper.find('td').at(4).simulate('click');
+    wrapper.find('td').at(1).simulate('click');
+    wrapper.find('td').at(8).simulate('click');
+    wrapper.find('td').at(2).simulate('click');
+    expect(wrapper.find('[data-hook="winner-message"]').text()).to.equal(`${player2} won!`);
+  });
+
 });

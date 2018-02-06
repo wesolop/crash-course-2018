@@ -17,8 +17,9 @@ class App extends React.Component {
   cellClicked({cIndex, rIndex}) {
     const board = this.state.board.map(r => [...r]);
     board[rIndex][cIndex] = this.state.currentPlayer;
-    if (board[0].every(c => c === 'X')) {
-      this.setState({winner: this.state.user1});
+    if (board[0].every(c => c === this.state.currentPlayer)) {
+      const winner = this.state.currentPlayer === 'X' ? this.state.user1 : this.state.user2;
+      this.setState({winner});
     }
     const nextPlayer = this.state.currentPlayer === 'X' ? 'O' : 'X';
     this.setState({board, currentPlayer: nextPlayer});
@@ -32,7 +33,7 @@ class App extends React.Component {
           onCellClicked={({cIndex, rIndex}) => this.cellClicked({cIndex, rIndex})}
           user1={this.state.user1} user2={this.state.user2}
                                    />
-        {this.state.winner && <div data-hook="winner-message">{`${this.state.user1} won!`}</div>}
+        {this.state.winner && <div data-hook="winner-message">{`${this.state.winner} won!`}</div>}
       </div>
     );
   }
