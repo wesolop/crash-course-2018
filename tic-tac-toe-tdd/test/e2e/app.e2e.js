@@ -24,6 +24,10 @@ const appDriver = page => ({
     aCellAt: index => page.$$eval('td', (els, i) => els[i].innerText, index),
     winnerMessage: () => page.$eval('[data-hook="winner-message"]', el => el.innerText),
     hasWinner: async () => !!(await page.$('[data-hook="winner-message"]'))
+  },
+  is: {
+    gameVisible: async () => !!(await page.$('table')),
+    registrationVisible: async () => !!(await page.$('[data-hook="registration"]'))
   }
 });
 
@@ -67,5 +71,18 @@ describe('React application', () => {
     await driver.when.clickACellAt(4);
     await driver.when.clickACellAt(2);
     expect(await driver.get.winnerMessage()).to.equal(`${user1} won!`);
+  });
+
+  it('should hide game while registration on', async () => {
+    await driver.when.navigateAndWait();
+    expect(await driver.is.gameVisible(), 'is game visible').to.equal(false);
+  });
+
+  it('should hide registration after game started', async () => {
+    const user1 = 'Yaniv';
+    const user2 = 'Computer';
+    await driver.when.navigateAndWait();
+    await driver.when.newGame({user1, user2});
+    expect(await driver.is.registrationVisible(), 'is registration visible').to.equal(false);
   });
 });

@@ -12,6 +12,7 @@ class App extends React.Component {
       board: [['', '', ''], ['', '', ''], ['', '', '']],
       winner: '',
       currentPlayer: 'X',
+      gameStarted: false,
     };
   }
   cellClicked({cIndex, rIndex}) {
@@ -28,13 +29,14 @@ class App extends React.Component {
   render() {
     return (
       <div className={s.root}>
-        <Registration onNewGame={({user1, user2}) => this.setState({user1, user2})}/>
-        <Game
+        {!this.state.gameStarted &&
+          <Registration onNewGame={({user1, user2}) => this.setState({user1, user2, gameStarted: true})}/>}
+        {this.state.gameStarted && <Game
           board={this.state.board}
           onCellClicked={({cIndex, rIndex}) => this.cellClicked({cIndex, rIndex})}
           user1={this.state.user1}
           user2={this.state.user2}
-          />
+          />}
         {this.state.winner && <div data-hook="winner-message">{`${this.state.winner} won!`}</div>}
       </div>
     );
