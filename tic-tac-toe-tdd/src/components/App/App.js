@@ -2,7 +2,7 @@ import React from 'react';
 import Game from '../Game';
 import Registration from '../Registration';
 import s from './App.scss';
-
+import {gameStatus} from '../../gameService';
 class App extends React.Component {
   constructor() {
     super();
@@ -17,8 +17,9 @@ class App extends React.Component {
   cellClicked({cIndex, rIndex}) {
     const board = this.state.board.map(r => [...r]);
     board[rIndex][cIndex] = this.state.currentPlayer;
-    if (board[0].every(c => c === this.state.currentPlayer)) {
-      const winner = this.state.currentPlayer === 'X' ? this.state.user1 : this.state.user2;
+    const winnerSymbol = gameStatus(board);
+    if (winnerSymbol) {
+      const winner = winnerSymbol === 'X' ? this.state.user1 : this.state.user2;
       this.setState({winner});
     }
     const nextPlayer = this.state.currentPlayer === 'X' ? 'O' : 'X';
@@ -31,8 +32,9 @@ class App extends React.Component {
         <Game
           board={this.state.board}
           onCellClicked={({cIndex, rIndex}) => this.cellClicked({cIndex, rIndex})}
-          user1={this.state.user1} user2={this.state.user2}
-                                   />
+          user1={this.state.user1}
+          user2={this.state.user2}
+          />
         {this.state.winner && <div data-hook="winner-message">{`${this.state.winner} won!`}</div>}
       </div>
     );
