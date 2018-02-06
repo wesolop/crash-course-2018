@@ -1,12 +1,15 @@
 import {expect} from 'chai';
 import puppeteer from 'puppeteer';
 import {beforeAndAfter, app} from './../environment';
+import {inputTestkitFactory} from 'wix-style-react/dist/testkit/puppeteer';
 
 const appDriver = page => ({
   when: {
     newGame: async ({user1, user2}) => {
-      await page.type('[data-hook="user1"]', user1);
-      await page.type('[data-hook="user2"]', user2);
+      const user1InputTestkit = await inputTestkitFactory({dataHook: 'user1', page});
+      await user1InputTestkit.enterText(user1);
+      const user2InputTestkit = await inputTestkitFactory({dataHook: 'user2', page});
+      await user2InputTestkit.enterText(user2);
       await page.$eval('[data-hook="start"]', btn => btn.click());
     },
     navigateAndWait: async (url = '/') => {

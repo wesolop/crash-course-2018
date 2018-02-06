@@ -3,8 +3,8 @@ import {PropTypes} from 'prop-types';
 
 export default class Game extends Component {
   static propTypes = {
-    user1: PropTypes.string.isRequired,
-    user2: PropTypes.string.isRequired,
+    user1: PropTypes.string,
+    user2: PropTypes.string,
     onCellClicked: PropTypes.func.isRequired,
     board: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.string)),
   }
