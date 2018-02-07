@@ -2,6 +2,7 @@ import {expect} from 'chai';
 import puppeteer from 'puppeteer';
 import {beforeAndAfter, app} from './../environment';
 import {inputTestkitFactory} from 'wix-style-react/dist/testkit/puppeteer';
+import eventually from 'wix-eventually';
 
 const appDriver = page => ({
   when: {
@@ -16,7 +17,9 @@ const appDriver = page => ({
       await page.goto(app.getUrl(url));
       await page.waitForSelector('[data-hook="user1"]');
     },
-    clickACellAt: index => page.$$eval('td', (els, i) => els[i].click(), index)
+    clickACellAt: index => page.$$eval('td', (els, i) => els[i].click(), index),
+    saveGame: () => page.click('[data-hook="saveGame"]'),
+    loadGame: () => page.click('[data-hook="loadGame"]'),
   },
   get: {
     user1Title: () => page.$eval('[data-hook="input1"]', el => el.innerText),
@@ -84,5 +87,23 @@ describe('React application', () => {
     await driver.when.navigateAndWait();
     await driver.when.newGame({user1, user2});
     expect(await driver.is.registrationVisible(), 'is registration visible').to.equal(false);
+  });
+
+  it('should save last game', async () => {
+    const user1 = 'Yaniv';
+    const user2 = 'Computer';
+    await driver.when.navigateAndWait();
+    await driver.when.newGame({user1, user2});
+    await driver.when.clickACellAt(0);
+    await driver.when.clickACellAt(4);
+    await driver.when.saveGame();
+    await driver.when.navigateAndWait();
+    await driver.when.loadGame();
+    return eventually(async () => {
+      expect(await driver.get.aCellAt(0)).to.equal('X');
+      expect(await driver.get.aCellAt(4)).to.equal('O');
+      expect(await driver.get.user1Title()).to.equal(user1);
+      expect(await driver.get.user2Title()).to.equal(user2);
+    });
   });
 });
