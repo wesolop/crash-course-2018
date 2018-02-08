@@ -8,7 +8,7 @@
     "email": "yanivef@wix.com"
   },
   "scripts": {
-    "start": "haste start",
+    "start": "haste start --entry-point=./index-dev.js",
     "precommit": "haste lint",
     "pretest": "haste build",
     "test": "haste test",
@@ -22,26 +22,31 @@
     "i18next": "~8.4.0",
     "i18next-xhr-backend": "~1.4.0",
     "prop-types": "~15.6.0",
+    "query-string": "^5.1.0",
     "react": "15.6.1",
     "react-dom": "15.6.1",
     "react-i18next": "~4.6.0",
+    "regenerator-runtime": "^0.11.0",
     "wix-axios-config": "latest",
     "wix-bootstrap-ng": "latest",
     "wix-express-csrf": "latest",
     "wix-express-require-https": "latest",
-    "wix-run-mode": "latest",
-    "regenerator-runtime": "^0.11.0"
+    "wix-run-mode": "latest"
   },
   "devDependencies": {
-    "react-test-renderer": "~15.6.0",
     "chai": "~4.1.0",
+    "chance": "^1.0.13",
     "enzyme": "~2.9.0",
-    "husky": "~0.14.0",
     "haste-preset-yoshi": "latest",
+    "husky": "~0.14.0",
     "jsdom": "~11.2.0",
     "jsdom-global": "~3.0.0",
+    "nock": "^9.1.6",
+    "puppeteer": "^1.0.0",
+    "react-test-renderer": "~15.6.0",
     "wix-bootstrap-testkit": "latest",
-    "wix-config-emitter": "latest"
+    "wix-config-emitter": "latest",
+    "wix-rpc-testkit": "^1.0.1176"
   },
   "haste": {
     "preset": "yoshi"

@@ -1,16 +1,31 @@
 import {expect} from 'chai';
-import {protractor, browser, $} from 'protractor';
-import {beforeAndAfter, app} from './../environment';
+import puppeteer from 'puppeteer';
+import env from './../environment';
+import Chance from 'chance';
+
+const {server, rpcServer, beforeAndAfter} = env();
 
 describe('React application', () => {
-
+  let page, chance;
   beforeAndAfter();
 
-  describe('open page', () => {
-    it('should display title', async () => {
-      await browser.get(app.getUrl('/'));
-      await browser.wait(protractor.ExpectedConditions.presenceOf($('h2')));
-      expect(await $('h2').getText()).to.equal('Hello World!');
-    });
+  afterEach(() => rpcServer.reset());
+
+  before(async () => {
+    chance = new Chance();
+    const browser = await puppeteer.launch();
+    page = await browser.newPage();
+  });
+
+  it('should site comments', async () => {
+    const siteId = chance.guid();
+    const aComment = {text: chance.word(), author: chance.word()};
+    rpcServer.when('CommentsService', 'fetch').respond(([reqSiteId]) =>
+      reqSiteId === siteId ? [aComment] : null);
+
+    await page.goto(server.getUrl(`/?siteId=${siteId}`));
+    await page.waitForSelector('li');
+
+    expect(await page.$$eval('li', items => items.map(li => li.innerText))).to.eql([`${aComment.text} | ${aComment.author}`]);
   });
 });

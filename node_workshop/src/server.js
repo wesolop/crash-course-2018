@@ -10,9 +10,17 @@ module.exports = (app, context) => {
   const templatePath = './src/index.ejs';
   const templateFile = readFileSync(templatePath, 'utf8');
   const isProduction = wixRunMode.isProduction();
-
+  const commentsRpc = aspects => context.rpc
+    .clientFactory(config.comments, 'CommentsService')
+    .client(aspects);
   app.use(wixExpressCsrf());
   app.use(wixExpressRequireHttps);
+
+  app.get('/comments/:siteId', async (req, res) => {
+    const rpcResponse = await commentsRpc(req.aspects)
+      .invoke('fetch', req.params.siteId);
+    res.json(rpcResponse);
+  });
 
   app.get('/', (req, res) => {
     const renderModel = getRenderModel(req);
