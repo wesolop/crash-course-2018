@@ -5,6 +5,8 @@ export default class Game extends Component {
   static propTypes = {
     user1: PropTypes.string,
     user2: PropTypes.string,
+    board: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.string)),
+    onCellClicked: PropTypes.func.isRequired,
   };
 
   render() {
@@ -17,9 +19,12 @@ export default class Game extends Component {
         </div>
         <table>
           <tbody>
-            <tr>
-              <td>X</td>
-            </tr>
+            {this.props.board.map((row, rIndex) =>
+              <tr key={rIndex}>{row.map((cell, cIndex) =>
+                <td
+                  key={cIndex} onClick={() =>
+                  this.props.onCellClicked({cIndex, rIndex})}
+                               >{cell}</td>)}</tr>)}
           </tbody>
         </table>
       </div>

@@ -51,6 +51,7 @@ describe('React application', () => {
     const user2 = 'Computer';
     await driver.when.navigate();
     await driver.when.newGame({user1, user2});
+    expect(await driver.get.aCellAt(0)).to.equal('');
     await driver.when.clickACellAt(0);
     expect(await driver.get.aCellAt(0)).to.equal('X');
   });
