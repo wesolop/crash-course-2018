@@ -16,12 +16,16 @@ class App extends React.Component {
       user1: '',
       user2: '',
       board: [['', '', ''], ['', '', ''], ['', '', '']],
+      winner: '',
     };
   }
 
   handleCellClicked({cIndex, rIndex}) {
     const board = this.state.board.map(row => [...row]);
     board[rIndex][cIndex] = 'X';
+    if (board[0].every(cell => cell === 'X')) {
+      this.setState({winner: 'X'});
+    }
     this.setState({board});
   }
 
@@ -35,7 +39,7 @@ class App extends React.Component {
           board={this.state.board}
           onCellClicked={({cIndex, rIndex}) => this.handleCellClicked({cIndex, rIndex})}
           />
-        <div data-hook="winner">Yaniv wins!</div>
+        {this.state.winner && <div data-hook="winner">Yaniv wins!</div>}
       </div>
     );
   }
