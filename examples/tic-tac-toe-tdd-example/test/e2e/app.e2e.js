@@ -1,6 +1,7 @@
 import {expect} from 'chai';
 import puppeteer from 'puppeteer';
 import {beforeAndAfter, app} from './../environment';
+import {inputTestkitFactory, buttonTestkitFactory} from 'wix-style-react/dist/testkit/puppeteer';
 
 describe('React application', () => {
   let page;
@@ -10,10 +11,17 @@ describe('React application', () => {
     page = await browser.newPage();
   });
 
-  describe('open page', () => {
-    it('should display title', async () => {
-      await page.goto(app.getUrl('/'));
-      expect(await page.$eval('h2', h => h.innerText)).to.equal('Hello World!');
-    });
+  it('should start a new game', async () => {
+    const user1 = 'Yaniv';
+    const user2 = 'Computer';
+    await page.goto(app.getUrl('/'));
+    const user1Driver = await inputTestkitFactory({dataHook: 'user1', page});
+    const user2Driver = await inputTestkitFactory({dataHook: 'user2', page});
+    const buttonDriver = await buttonTestkitFactory({dataHook: 'newGame', page});
+    await user1Driver.enterText(user1);
+    await user2Driver.enterText(user2);
+    await buttonDriver.click();
+    expect(await page.$eval('[data-hook="user1Title"]', el => el.innerText)).to.equal(user1);
+    expect(await page.$eval('[data-hook="user2Title"]', el => el.innerText)).to.equal(user2);
   });
 });

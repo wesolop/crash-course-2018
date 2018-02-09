@@ -1,4 +1,6 @@
 import React from 'react';
+import Input from 'wix-style-react/Input';
+import Button from 'wix-style-react/Button';
 import {translate} from 'react-i18next';
 import s from './App.scss';
 import PropTypes from 'prop-types';
@@ -9,16 +11,26 @@ class App extends React.Component {
     t: PropTypes.func
   };
 
+  constructor() {
+    super();
+    this.state = {
+      user1: '',
+      user2: '',
+    };
+  }
+
   render() {
-    const {t} = this.props;
     return (
       <div className={s.root}>
-        <div className={s.header}>
-          <h2>{t('app.title')}</h2>
+        <div>
+          User 1: <Input dataHook="user1" onChange={e => this.setState({user1: e.target.value})}/>
+          User 2: <Input dataHook="user2" onChange={e => this.setState({user2: e.target.value})}/>
+          <Button dataHook="newGame">New Game</Button>
         </div>
-        <p className={s.intro}>
-          {t('app.intro')}
-        </p>
+        <div>
+          <label data-hook="user1Title">{this.state.user1}</label>
+          <label data-hook="user2Title">{this.state.user2}</label>
+        </div>
       </div>
     );
   }
