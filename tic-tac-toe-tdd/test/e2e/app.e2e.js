@@ -38,7 +38,11 @@ describe('React application', () => {
   let page, driver;
   beforeAndAfter();
   before(async () => {
-    const browser = await puppeteer.launch();
+    const browser = await puppeteer.launch({
+      args: [
+        '--no-sandbox',
+        '--disable-setuid-sandbox'
+      ]});
     page = await browser.newPage();
     driver = appDriver(page);
   });
