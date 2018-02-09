@@ -35,6 +35,7 @@ class App extends React.Component {
           board={this.state.board}
           onCellClicked={({cIndex, rIndex}) => this.handleCellClicked({cIndex, rIndex})}
           />
+        <div data-hook="winner">Yaniv wins!</div>
       </div>
     );
   }

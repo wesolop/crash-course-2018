@@ -20,6 +20,7 @@ const appDriver = ({page}) => ({
     player1Name: () => page.$eval('[data-hook="user1Title"]', el => el.innerText),
     player2Name: () => page.$eval('[data-hook="user2Title"]', el => el.innerText),
     aCellAt: index => page.$$eval('td', (cells, _index) => cells[_index].innerText, index),
+    winnerMessage: () => page.$eval('[data-hook="winner"]', el => el.innerText),
   }
 });
 
@@ -54,5 +55,18 @@ describe('React application', () => {
     expect(await driver.get.aCellAt(0)).to.equal('');
     await driver.when.clickACellAt(0);
     expect(await driver.get.aCellAt(0)).to.equal('X');
+  });
+
+  it('first player should win the game', async () => {
+    const user1 = 'Yaniv';
+    const user2 = 'Computer';
+    await driver.when.navigate();
+    await driver.when.newGame({user1, user2});
+    await driver.when.clickACellAt(0);
+    await driver.when.clickACellAt(3);
+    await driver.when.clickACellAt(1);
+    await driver.when.clickACellAt(4);
+    await driver.when.clickACellAt(2);
+    expect(await driver.get.winnerMessage()).to.equal('Yaniv wins!');
   });
 });
