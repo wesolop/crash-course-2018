@@ -13,11 +13,13 @@ const appDriver = ({page}) => ({
       await user2Driver.enterText(user2);
       await buttonDriver.click();
     },
-    navigate: () => page.goto(app.getUrl('/'))
+    navigate: () => page.goto(app.getUrl('/')),
+    clickACellAt: index => page.$$eval('td', (cells, _index) => cells[_index].click(), index),
   },
   get: {
     player1Name: () => page.$eval('[data-hook="user1Title"]', el => el.innerText),
-    player2Name: () => page.$eval('[data-hook="user2Title"]', el => el.innerText)
+    player2Name: () => page.$eval('[data-hook="user2Title"]', el => el.innerText),
+    aCellAt: index => page.$$eval('td', (cells, _index) => cells[_index].innerText, index),
   }
 });
 
@@ -42,5 +44,14 @@ describe('React application', () => {
     await driver.when.newGame({user1, user2});
     expect(await driver.get.player1Name()).to.equal(user1);
     expect(await driver.get.player2Name()).to.equal(user2);
+  });
+
+  it('should show "x" after first player clicks', async () => {
+    const user1 = 'Yaniv';
+    const user2 = 'Computer';
+    await driver.when.navigate();
+    await driver.when.newGame({user1, user2});
+    await driver.when.clickACellAt(0);
+    expect(await driver.get.aCellAt(0)).to.equal('X');
   });
 });

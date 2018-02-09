@@ -11,8 +11,17 @@ export default class Game extends Component {
     const {user1, user2} = this.props;
     return (
       <div>
-        <label data-hook="user1Title">{user1}</label>
-        <label data-hook="user2Title">{user2}</label>
+        <div>
+          <label data-hook="user1Title">{user1}</label>
+          <label data-hook="user2Title">{user2}</label>
+        </div>
+        <table>
+          <tbody>
+            <tr>
+              <td>X</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     );
   }
