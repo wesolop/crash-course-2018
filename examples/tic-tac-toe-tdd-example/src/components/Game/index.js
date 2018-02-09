@@ -24,7 +24,9 @@ export default class Game extends Component {
                 <td
                   key={cIndex} onClick={() =>
                   this.props.onCellClicked({cIndex, rIndex})}
-                               >{cell}</td>)}</tr>)}
+                               >{cell}
+                </td>)}
+              </tr>)}
           </tbody>
         </table>
       </div>
