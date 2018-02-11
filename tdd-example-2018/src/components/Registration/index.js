@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import Input from 'wix-style-react/Input';
 import PropTypes from 'prop-types';
 
 export default class Registration extends Component {
@@ -16,12 +17,12 @@ export default class Registration extends Component {
   render() {
     return (
       <div>
-        <input
-          data-hook="p1Input"
+        <Input
+          dataHook="p1Input"
           onChange={e => this.setState({p1: e.target.value})}
           />
-        <input
-          data-hook="p2Input"
+        <Input
+          dataHook="p2Input"
           onChange={e => this.setState({p2: e.target.value})}
           />
         <button
