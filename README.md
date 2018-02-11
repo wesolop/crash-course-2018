@@ -21,4 +21,4 @@ Two days of final project - letting participates to implement everything they ju
 
 - [Fed Handbook](https://github.com/wix-private/fed-handbook)
 - [Node Platform](https://github.com/wix-platform/wix-node-platform)
-- [Testing terms / technologies](https://github.com/wix-private/crash-2018/new/master?readme=1#testing-technologies)
+- [Testing terms / technologies](./TESTING.md)
