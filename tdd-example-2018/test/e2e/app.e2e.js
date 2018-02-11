@@ -23,7 +23,11 @@ const appDriver = ({page}) => ({
     p1Name: () => page.$eval('.p1Name', el => el.innerText),
     p2Name: () => page.$eval('.p2Name', el => el.innerText),
     cellAt: index =>
-      page.$$eval('td', (elements, _index) => elements[_index].innerText, index)
+      page.$$eval('td', (elements, _index) => elements[_index].innerText, index),
+    winnerMessage: () => page.$eval('[data-hook="winnerMessage"]', el => el.innerText)
+  },
+  is: {
+    winnerMessageVisible: async () => !!(await page.$('[data-hook="winnerMessage"]'))
   }
 });
 
@@ -54,5 +58,26 @@ describe('React application', () => {
     expect(await driver.get.cellAt(0)).to.equal('');
     await driver.when.clickACellAt(0);
     expect(await driver.get.cellAt(0)).to.equal('X');
+  });
+
+  it('first player should win', async () => {
+    const p1 = 'Yaniv';
+    const p2 = 'Computer';
+    await driver.when.navigate();
+    await driver.when.newGame({p1, p2});
+    await driver.when.clickACellAt(0);
+    await driver.when.clickACellAt(3);
+    await driver.when.clickACellAt(1);
+    await driver.when.clickACellAt(4);
+    await driver.when.clickACellAt(2);
+    expect(await driver.get.winnerMessage()).to.equal(`${p1} wins!`);
+  });
+
+  it('should not have a winner', async () => {
+    const p1 = 'Yaniv';
+    const p2 = 'Computer';
+    await driver.when.navigate();
+    await driver.when.newGame({p1, p2});
+    expect(await driver.is.winnerMessageVisible(), 'winner message visible').to.equal(false);
   });
 });
