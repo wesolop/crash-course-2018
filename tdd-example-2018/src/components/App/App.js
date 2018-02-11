@@ -19,7 +19,7 @@ class App extends React.Component {
   handleCellClick = ({cIndex, rIndex}) => {
     const board = this.state.board.map(row => [...row]);
     board[rIndex][cIndex] = this.state.currentPlayer;
-    if (board[0].every(cell => cell === 'X')) {
+    if (board[0].every(cell => cell === 'X' || cell === 'O')) {
       this.setState({winner: 'X'});
     }
     const nextPlayer = this.state.currentPlayer === 'X' ? 'O' : 'X';
