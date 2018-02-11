@@ -54,7 +54,22 @@ describe('App', () => {
     .when.clickCell(5)
     .when.clickCell(2);
 
-    expect(driver.get.winnerMessage().includes('Yaniv')).to.be.true;
+    expect(driver.get.winnerMessage().includes(p2)).to.be.true;
+
+  });
+
+  it('should show first play (X) win', () => {
+    const p1 = 'Yaniv';
+    const p2 = 'Computer';
+    driver.when.startGame({p1, p2})
+    .when.clickCell(0)
+    .when.clickCell(3)
+    .when.clickCell(1)
+    .when.clickCell(7)
+    .when.clickCell(2)
+    .when.clickCell(5);
+
+    expect(driver.get.winnerMessage().includes(p1)).to.be.true;
 
   });
 });
