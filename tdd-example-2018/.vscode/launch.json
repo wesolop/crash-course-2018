@@ -8,6 +8,34 @@
     "cwd": "${workspaceRoot}"
   },
   {
+    "name": "CurMocha Direct",
+    "type": "node",
+    "request": "launch",
+    "program": "${workspaceRoot}/node_modules/mocha/bin/_mocha",
+    "args": [
+       "--no-timeouts",
+       "--require",
+       "./node_modules/haste-preset-yoshi/config/mocha-setup.js",
+       "${relativeFile}"],
+    "env": {
+      "NODE_ENV": "test",
+      "SRC_PATH": "./src"
+    },
+    "cwd": "${workspaceRoot}",
+  },
+  {
+    "name": "Mocha Direct",
+    "type": "node",
+    "request": "launch",
+    "program": "${workspaceRoot}/node_modules/mocha/bin/_mocha",
+    "args": ["{test,src}/**/*.spec.js{,x}", "--no-timeouts", "--require", "./node_modules/haste-preset-yoshi/config/mocha-setup.js"],
+    "env": {
+      "NODE_ENV": "test",
+      "SRC_PATH": "./src"
+    },
+    "cwd": "${workspaceRoot}"
+  },
+  {
     "name": "Launch Protractor",
     "type": "node",
     "request": "launch",

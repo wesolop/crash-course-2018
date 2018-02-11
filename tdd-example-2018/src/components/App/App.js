@@ -3,7 +3,7 @@ import {translate} from 'react-i18next';
 import s from './App.scss';
 import Registration from '../Registration';
 import Game from '../Game';
-import BoardLogic from '../../logic/board/index.js';
+import {getWinner} from '../../logic/board';
 
 class App extends React.Component {
   constructor() {
@@ -20,7 +20,7 @@ class App extends React.Component {
   handleCellClick = ({cIndex, rIndex}) => {
     const board = this.state.board.map(row => [...row]);
     board[rIndex][cIndex] = this.state.currentPlayer;
-    const winner = BoardLogic.getWinner(board);
+    const winner = getWinner(board);
     if (winner === this.state.currentPlayer) {
       this.setState({winner: this.state.currentPlayer});
     }
