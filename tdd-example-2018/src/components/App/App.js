@@ -4,6 +4,7 @@ import s from './App.scss';
 import Registration from '../Registration';
 import Game from '../Game';
 import {getWinner} from '../../logic/board';
+import axios from 'axios';
 
 class App extends React.Component {
   constructor() {
@@ -14,7 +15,17 @@ class App extends React.Component {
       board: [['', '', ''], ['', '', ''], ['', '', '']],
       winner: '',
       currentPlayer: 'X',
+      leaderBoard: undefined,
     };
+  }
+
+  componentDidMount() {
+    axios.get('/leaderboard').then(response => {
+      const {data: leaderboard} = response;
+      this.setState({
+        leaderboard
+      });
+    });
   }
 
   handleCellClick = ({cIndex, rIndex}) => {
@@ -42,14 +53,62 @@ class App extends React.Component {
     }
   }
 
+  renderGame() {
+    if (this.gameStarted()) {
+      return (
+        <div data-hook="game-board">
+          <Game
+            onCellClicked={this.handleCellClick}
+            board={this.state.board}
+            p1={this.state.p1}
+            p2={this.state.p2}
+            />
+        </div>
+      );
+    } else {
+      return null;
+    }
+  }
+
+  renderLeaderBoard() {
+    const {p1, p2} = this.state;
+    return (
+      <div data-hook="leader-board">
+        <div data-hook="leader-board-row">
+          <div data-hook="leader-board-name">
+            {p1}
+          </div>
+          <div data-hook="leader-board-score">
+            0
+          </div>
+        </div>
+        <div data-hook="leader-board-row">
+          <div data-hook="leader-board-name">
+            {p2}
+          </div>
+          <div data-hook="leader-board-score">
+            0
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   render() {
     return (
       <div className={s.root}>
-        <Registration onNewGame={(p1, p2) => this.setState({p1, p2})}/>
-        <Game onCellClicked={this.handleCellClick} board={this.state.board} p1={this.state.p1} p2={this.state.p2}/>
+        {!this.gameStarted() && (
+          <Registration dataHook="registration" onNewGame={(p1, p2) => this.setState({p1, p2})}/>
+        )}
+        {this.renderGame()}
         {this.renderWinningMessage()}
+        {this.renderLeaderBoard()}
       </div>
     );
+  }
+
+  gameStarted() {
+    return Boolean(this.state.p1);
   }
 }
 

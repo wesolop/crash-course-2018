@@ -4,7 +4,8 @@ import PropTypes from 'prop-types';
 
 export default class Registration extends Component {
   static propTypes = {
-    onNewGame: PropTypes.func
+    onNewGame: PropTypes.func,
+    dataHook: PropTypes.string
   };
 
   constructor() {
@@ -16,7 +17,7 @@ export default class Registration extends Component {
   }
   render() {
     return (
-      <div>
+      <div data-hook={this.props.dataHook}>
         <Input
           dataHook="p1Input"
           onChange={e => this.setState({p1: e.target.value})}

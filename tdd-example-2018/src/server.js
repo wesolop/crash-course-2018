@@ -4,8 +4,13 @@ import ejs from 'ejs';
 import wixExpressCsrf from 'wix-express-csrf';
 import wixExpressRequireHttps from 'wix-express-require-https';
 import {readFileSync} from 'fs';
+import bodyParser from 'body-parser';
 
 module.exports = (app, context) => {
+  // State
+  let leaderBoard = [];
+
+
   const config = context.config.load('tdd-example-2018');
   const templatePath = './src/index.ejs';
   const templateFile = readFileSync(templatePath, 'utf8');
@@ -13,12 +18,24 @@ module.exports = (app, context) => {
 
   app.use(wixExpressCsrf());
   app.use(wixExpressRequireHttps);
+  // app.use(bodyParser);
+
+  app.get('/leader-board', (req, res) => {
+    res.json(leaderBoard);
+  });
+
+  app.post('/leader-board', bodyParser.json(), (req, res) => {
+    const newLeaderBoard = req.body;
+    leaderBoard = newLeaderBoard;
+    res.end();
+  });
 
   app.get('/', (req, res) => {
     const renderModel = getRenderModel(req);
     const html = ejs.render(templateFile, renderModel, {cache: isProduction, filename: templatePath});
     res.send(html);
   });
+
 
   function getRenderModel(req) {
     return {
