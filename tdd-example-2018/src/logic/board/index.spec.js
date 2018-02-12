@@ -32,6 +32,18 @@ describe('getWinner', () => {
     });
   };
 
+  it('should have no win for empty board', () => {
+    expect(getWinner(generateBoard())).to.be.null;
+  });
+
+  it('should have no win for partial board', () => {
+    expect(getWinner([
+      ['X', 'O', 'X'],
+      ['O', 'X', 'O'],
+      ['', '', '']
+    ])).to.be.null;
+  });
+
   it('should win with rows', () => {
     const board = generateBoard();
 
@@ -72,8 +84,14 @@ describe('getWinner', () => {
     ];
     expect(getWinner(diag2('X'))).to.be.equal('X');
     expect(getWinner(diag2('O'))).to.be.equal('O');
+  });
 
-
+  it('should return tie', () => {
+    expect(getWinner([
+      ['X', 'O', 'X'],
+      ['O', 'X', 'O'],
+      ['O', 'X', 'O']
+    ])).to.be.equal('tie');
   });
 
 

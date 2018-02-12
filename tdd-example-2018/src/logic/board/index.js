@@ -35,6 +35,9 @@ export function getWinner(board) {
     return 'O';
   }
 
+  if (board.every(row => row.every(cell => !!cell))) {
+    return 'tie';
+  }
 
 
   return null;
