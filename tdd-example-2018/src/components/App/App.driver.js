@@ -15,7 +15,8 @@ export default wrapper => {
       }
     },
     get: {
-      winnerMessage: () => wrapper.find('[data-hook="winnerMessage"]').text()
+      winnerMessage: () => wrapper.find('[data-hook="winnerMessage"]').text(),
+      leaderBoard: () => wrapper.find('[data-hook="leader-board"]').text()
     }
   };
 

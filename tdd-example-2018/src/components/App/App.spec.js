@@ -6,8 +6,11 @@ import i18next from 'i18next';
 import {I18nextProvider} from 'react-i18next';
 import App from './App';
 import translation from '../../assets/locale/messages_en.json';
-
 import createAppDriver from './App.driver';
+import nock from 'nock';
+import {baseURL} from '../../../test/test-common';
+import eventually from 'wix-eventually';
+
 const i18nData = {
   lng: 'en',
   keySeparator: '$',
@@ -17,11 +20,13 @@ const i18nData = {
 };
 
 describe('App', () => {
-  let wrapper, driver;
+  let wrapper, driver, nockScope;
 
-  afterEach(() => wrapper.detach());
+  beforeEach(async () => {
+    nockScope = nock(baseURL + '/')
+      .get('/leader-board')
+      .reply(200, []);
 
-  beforeEach(() => {
     wrapper = mount(
       <I18nextProvider i18n={i18next.init(i18nData)}>
         <App/>
@@ -31,7 +36,15 @@ describe('App', () => {
 
     driver = createAppDriver(wrapper);
 
+    await eventually(() => {
+      expect(nockScope.isDone()).to.be.true;
+    });
   });
+
+  afterEach(() => {
+    wrapper.detach();
+  });
+
 
   it('should show "O" after second player clicks', () => {
     const p1 = 'Yaniv';
@@ -71,5 +84,17 @@ describe('App', () => {
 
     expect(driver.get.winnerMessage().includes(p1)).to.be.true;
 
+  });
+
+  it('should render empty leaderBoard', () => {
+    expect(driver.get.leaderBoard()).to.be.eql('00');
+  });
+
+  it.skip('should show leaderBoard with names after registration', () => {
+    const p1 = 'Yaniv';
+    const p2 = 'Computer';
+    driver.when.startGame({p1, p2});
+
+    expect(driver.get.winnerMessage().includes(p1)).to.be.true;
   });
 });

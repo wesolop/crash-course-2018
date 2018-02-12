@@ -20,7 +20,7 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    axios.get('/leaderboard').then(response => {
+    axios.get('/leader-board').then(response => {
       const {data: leaderboard} = response;
       this.setState({
         leaderboard

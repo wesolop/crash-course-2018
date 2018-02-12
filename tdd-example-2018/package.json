@@ -41,10 +41,12 @@
     "husky": "~0.14.0",
     "jsdom": "~11.2.0",
     "jsdom-global": "~3.0.0",
+    "nock": "^9.1.6",
     "puppeteer": "^1.0.0",
     "react-test-renderer": "~15.6.0",
     "wix-bootstrap-testkit": "latest",
-    "wix-config-emitter": "latest"
+    "wix-config-emitter": "latest",
+    "wix-eventually": "^2.1.0"
   },
   "haste": {
     "preset": "yoshi"
