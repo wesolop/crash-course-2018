@@ -1,40 +1,21 @@
 import 'jsdom-global/register';
-import React from 'react';
 import {expect} from 'chai';
-import {mount} from 'enzyme';
-import i18next from 'i18next';
-import {I18nextProvider} from 'react-i18next';
-import App from './App';
-import translation from '../../assets/locale/messages_en.json';
 import createAppDriver from './App.driver';
 import nock from 'nock';
 import {baseURL} from '../../../test/test-common';
 import eventually from 'wix-eventually';
 
-const i18nData = {
-  lng: 'en',
-  keySeparator: '$',
-  resources: {
-    en: {translation}
-  }
-};
+
 
 describe('App', () => {
-  let wrapper, driver, nockScope;
+  let driver, nockScope;
 
   beforeEach(async () => {
     nockScope = nock(baseURL + '/')
       .get('/leader-board')
       .reply(200, []);
 
-    wrapper = mount(
-      <I18nextProvider i18n={i18next.init(i18nData)}>
-        <App/>
-      </I18nextProvider>,
-      {attachTo: document.createElement('div')}
-    );
-
-    driver = createAppDriver(wrapper);
+    driver = createAppDriver().when.craeted();
 
     await eventually(() => {
       expect(nockScope.isDone()).to.be.true;
@@ -42,7 +23,7 @@ describe('App', () => {
   });
 
   afterEach(() => {
-    wrapper.detach();
+    driver.cleanup();
   });
 
 
@@ -53,7 +34,7 @@ describe('App', () => {
     .when.clickCell(0)
     .when.clickCell(1);
 
-    expect(wrapper.find('td').at(1).text()).to.eq('O');
+    expect(driver.get.cellText(1)).to.eq('O');
   });
 
   it('should show second play (O) win', () => {
